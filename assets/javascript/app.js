@@ -29,7 +29,7 @@ $("button").on("click", function(e) {
   e.preventDefault();
   var buttonName = $(this).attr("id");
   console.log(buttonName);
-  var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN`;
+  var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN&limit=5`;
   $.ajax({
     url: queryURL,
     method: "GET"
