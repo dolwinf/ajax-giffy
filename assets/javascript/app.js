@@ -14,25 +14,29 @@ var buttonsArray = [
 ];
 
 var buttonsDiv = $("#buttons");
-var searchTerm = "";
-var queryURL = `http://api.giphy.com/v1/gifs/search?q=${searchTerm}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN`;
 
 buttonsArray.forEach(function(item) {
   buttonsDiv.append(
-    "<button class='btn btn-primary buttons' id='thisbutton'>" +
+    "<button class='btn btn-primary buttons' id='" +
+      item +
+      "'>" +
       item +
       "</button>"
   );
 });
 
-var thisbutton = $("#thisbutton");
-
-thisbutton.on("click", function(e) {
+$("button").on("click", function(e) {
   e.preventDefault();
+  var buttonName = $(this).attr("id");
+  console.log(buttonName);
+  var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN`;
   $.ajax({
-    query: queryURL,
+    url: queryURL,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
+    var imgData = response.data;
+    imgData.forEach(function(item) {
+      $("#images").append("<img src='" + item.images.fixed_height.url + "' />");
+    });
   });
 });
