@@ -29,7 +29,9 @@ searchButton.on("click", function(e) {
       searchText +
       "</button>"
   );
+
   $("input").val("");
+  listen();
 });
 
 buttonsArray.forEach(function(item) {
@@ -42,20 +44,23 @@ buttonsArray.forEach(function(item) {
   );
 });
 
-$("button").on("click", function(e) {
-  e.preventDefault();
-  var buttonName = $(this).attr("id");
+listen();
+function listen() {
+  $("button").on("click", function(e) {
+    e.preventDefault();
+    var buttonName = $(this).attr("id");
 
-  var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN&limit=5`;
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(response) {
-    var imgData = response.data;
-    imgData.forEach(function(item) {
-      $("#images").prepend(
-        "<img src='" + item.images.fixed_height.url + "' />"
-      );
+    var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN&limit=5`;
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+      var imgData = response.data;
+      imgData.forEach(function(item) {
+        $("#images").prepend(
+          "<img src='" + item.images.fixed_height.url + "' />"
+        );
+      });
     });
   });
-});
+}
