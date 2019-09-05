@@ -14,6 +14,23 @@ var buttonsArray = [
 ];
 
 var buttonsDiv = $("#buttons");
+var searchButton = $("#searchButton");
+
+searchButton.on("click", function(e) {
+  e.preventDefault();
+  var searchText = $("#searchbar")
+    .val()
+    .trim();
+
+  buttonsDiv.append(
+    "<button class='btn btn-primary buttons' id='" +
+      searchText +
+      "'>" +
+      searchText +
+      "</button>"
+  );
+  $("input").val("");
+});
 
 buttonsArray.forEach(function(item) {
   buttonsDiv.append(
@@ -28,7 +45,7 @@ buttonsArray.forEach(function(item) {
 $("button").on("click", function(e) {
   e.preventDefault();
   var buttonName = $(this).attr("id");
-  console.log(buttonName);
+
   var queryURL = `http://api.giphy.com/v1/gifs/search?q=${buttonName}&api_key=OGnk9LWXYQF38vG8loDkmGDa2Fm7FJgN&limit=5`;
   $.ajax({
     url: queryURL,
@@ -36,7 +53,9 @@ $("button").on("click", function(e) {
   }).then(function(response) {
     var imgData = response.data;
     imgData.forEach(function(item) {
-      $("#images").append("<img src='" + item.images.fixed_height.url + "' />");
+      $("#images").prepend(
+        "<img src='" + item.images.fixed_height.url + "' />"
+      );
     });
   });
 });
